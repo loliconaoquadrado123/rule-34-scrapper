@@ -8,9 +8,8 @@ headers={
 folder='in/'
 def main(tags='2d',amount=50,offset=0):
     baseUrl='https://rule34.xxx/index.php'
-    url='https://rule34.xxx/index.php?page=post&s=list&tags='
-   
-    fullUrl=url+tags.replace(' ','+')+'&pid='
+    url='https://rule34.xxx/index.php?page=post&s=list'
+
     imageSrcs=[]
     x=0
     while len(imageSrcs)<amount:
@@ -18,19 +17,18 @@ def main(tags='2d',amount=50,offset=0):
         done=False
         while done==False:
             try:
-                currentUrl=fullUrl+str(offset+amount*x+1)
-                response=requests.get(currentUrl,headers=headers)
+                filledUrl=f'{url}&tags={tags.replace(' ','+')}&pid={str(offset+amount*x+1)}'
+                response=requests.get(filledUrl,headers=headers)
                 if response.status_code==429:
                     print(response.status_code)
                     #print(response.headers)
                     print('\nrate limited. trying again soon')
-                    print('first checkpoint')
-                    time.sleep(7)
+                    time.sleep(3)
                 else:
                     done=True
             except:
                 print('\nerror. trying again soon')
-                time.sleep(7)
+                time.sleep(3)
                 done=False
         print(f'reading page {x} of {int((amount/42))+(amount%42>0)}. status code: {response.status_code}')
         d=pq(response.text)
@@ -93,17 +91,16 @@ def main(tags='2d',amount=50,offset=0):
                         print(response.status_code)
                         #print(response.headers)
                         print('\n rate limited. trying again soon')
-                        time.sleep(7)
+                        time.sleep(3)
                     else:
                         done=True
-                        
                         file=open('./'+str(a)+'.jpg','wb')
                         file.write(response.content)
                 except Exception as e:
                     time.sleep(1)
                     done=False
 
-            print('progress: '+str(a)+' out of '+str(amount)+'('+str((a/amount)*100)+'%'+')')
+            print(f'progress: {str(a)} out of {str(amount)}({str((a/amount)*100)}%)')
         a+=1
     
 print('the amount of images: ')
