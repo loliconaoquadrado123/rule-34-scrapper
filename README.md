@@ -14,3 +14,5 @@ Use these commands to install the dependencies:
   pip install requests
 ```
 and then run the python script.
+
+Glad to help.
