@@ -5,7 +5,7 @@
 * as the html parser: pyquery
 * as https connection library: requests
 
-#Getting Started
+# Getting Started
 
 Use these commands to install the dependencies:
 ```
